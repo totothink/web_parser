@@ -1,0 +1,21 @@
+--- 
+product: 
+  attributes: 
+    isbn: 
+      transform_rules: "{|value| value.gsub(/.*[:\xEF\xBC\x9A]/,'')}"
+      xpath: div.info div.book_detailed ul.clearfix li[3] span[2]
+      attr: content
+    title: 
+      xpath: div.h1_title h1
+      attr: content
+    cover: 
+      xpath: div.show div.pic a img
+      attr: src
+    publisher: 
+      xpath: div.info div.book_detailed p[2]
+      attr: content
+    authors: 
+      transform_rules: "{|object| object.search('a').map{|a| a.content}.join(',')}"
+      xpath: div.info div.book_detailed p[1]
+  type: single
+  xpath: div.dp_main

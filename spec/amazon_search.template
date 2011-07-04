@@ -1,0 +1,22 @@
+# amazon_book_search.template - 亚马逊图书搜索模板
+# http://www.amazon.cn/s?url=search-alias=stripbooks&field-keywords=nlp
+# 
+books:
+  type: list
+  xpath: div#atfResults div.result
+  attributes:
+    title:
+      xpath: div.data div.title a.title
+      attr: content
+    authors:
+      xpath: div.data div.title span[1]
+      attr: content
+    publisher:
+      xpath: div.data div.title span[2]
+      attr: content
+    publish_date:
+      xpath: div.data div.title span[3]
+      attr: content      
+    cover:
+      xpath: div.image img
+      attr: src

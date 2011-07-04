@@ -1,0 +1,31 @@
+book:
+  type: single
+  attributes:
+    title:
+      xpath: span#btAsinTitle 
+      attr: content
+    authors:
+      xpath: h1.parseasinTitle
+      transform_rules: "{|object| object.parent.search('a').map{|a| a.content}.join(',')}" 
+  xpath: form#handleBuy
+
+shoveler:
+  type: list
+  xpath: div.shoveler-content li
+  attributes:
+    title:
+      xpath: a.sim-img-title
+      attr: title
+
+description:
+  type: special
+  xpath: div.productDescriptionWrapper
+  attr: content      
+
+vtpsims:
+  type: list
+  xpath: div#vtpsims li
+  attributes:
+    title: 
+      xpath: div.asinDetails
+      attr: content

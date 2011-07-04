@@ -1,0 +1,22 @@
+# product.template - 产品信息提取模板
+product:
+  type: single
+  attributes:
+    title:
+      xpath: div.h1_title h1
+      attr: content
+    cover:
+      xpath: div.show div.pic a img
+      attr: src
+#      transform_rules: "{|value| cover_url = value.to_s.send(:gsub,'_b.','_e.'); open(cover_url).read rescue nil}"
+    authors:
+      xpath: div.info div.book_detailed p[1]
+      transform_rules: "{|object| object.search('a').map{|a| a.content}.join(',')}"
+    publisher:
+      xpath: div.info div.book_detailed p[2]
+      attr: content
+    isbn:
+      xpath: div.info div.book_detailed ul.clearfix li[3] span[2]
+      attr: content
+      transform_rules: "{|value| value.gsub(/.*[:：]/,'')}"
+  xpath: div.dp_main
