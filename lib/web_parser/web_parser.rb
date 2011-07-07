@@ -136,10 +136,14 @@ module WebParser
     
       def get_vaule_by_attr(object,attribute)
         attribute == 'content' ? object.content : object.attributes[attribute]
+        rescue Exception => message
+          raise "object:#{object};attribute:#{attribute}.#{message}"
       end
 
       def get_vaule_by_transform_rules(object,transform_rules)
         create_proc_by(transform_rules).call(object)
+        rescue Exception => message
+          raise "object:#{object};transform_rules:#{transform_rules}.#{message}"
       end
 
       def create_proc_by(transform_rules)
