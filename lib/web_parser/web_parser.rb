@@ -7,9 +7,10 @@
 #   * +template+ - 解析xhtml结构的模板，允许为模板哈希或模板文件   
 #
 # == 从指定url提取信息
-#   WebParser.extract_from_url(url,template)
+#   WebParser.extract_from_url(url,template,options={})
 #   * +url+  - 网页的url
 #   * +template+ - 解析url指定网页的模板，允许为模板哈希或模板文件
+#   * +options+ - 请求url时的头部参数
 #
 # == 从指定网页文件提取信息
 #   WebParser.extract_from_file(web_file,template)
@@ -44,8 +45,8 @@ module WebParser
       end
     end
 
-    def extract_from_url(url,template)
-      doc = get_doc_from_url(URI.escape(url))
+    def extract_from_url(url,template,options={})
+      doc = get_doc_from_url(url,options)
       extract(doc,template)
     end
 
@@ -55,13 +56,13 @@ module WebParser
     end
 
     private
-      def get_doc_from_url(url)
-        doc = request_doc_from_url(url)
+      def get_doc_from_url(url,options={})
+        doc = request_doc_from_url(url,options)
         doc && convert_to_utf8(doc)
       end
 
-      def request_doc_from_url(url)
-        res = WebAgent.get(url)
+      def request_doc_from_url(url,options={})
+        res = WebAgent.get(url,options)
         res && res.body 
       end
 
@@ -72,10 +73,11 @@ module WebParser
       end
 
       # 将网页从其他字符集转换成为utf8格式
+      # 如果网页中没有指定字符集，则默认为utf-8格式进行处理
       def convert_to_utf8(doc)
         doc.match(/charset=([a-zA-Z\-\d]*)/)
         doc_charset = $1
-        unless doc_charset.downcase == 'utf-8'        
+        if doc_charset && doc_charset.downcase != 'utf-8'        
           doc = Iconv.iconv('UTF-8//IGNORE',"#{doc_charset}//IGNORE",doc).to_s
           doc.sub!("charset=#{doc_charset}",'charset=utf-8')
         end

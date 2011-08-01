@@ -9,7 +9,7 @@ product:
     category_id:
       xpath: div.dp_break a[last()]
       attr: href
-      transform_rules: "{|value| cate = Regexp.new('\/([\d.]+)\.'); matches = cate.match(value); matches if matches}"
+      transform_rules: "{|value| cate = Regexp.new('\/([\d.]+)\.'); matches = cate.match(value); matches[1] if matches}"
     price:
       xpath: p.price_d span
       attr: content
