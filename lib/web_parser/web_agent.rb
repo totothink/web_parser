@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 # web_agent.rb - 网页代理
 # 网页代理主要负责和网络的通讯
 #

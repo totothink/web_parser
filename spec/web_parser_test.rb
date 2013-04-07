@@ -1,3 +1,4 @@
+#encoding: utf-8
 require 'spec_helper'
 
 #url = 'http://www.amazon.cn/s?url=search-alias=stripbooks&field-keywords=第五项修炼'

@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 # template.rb - 网页解析器模板模块
 #   template是管理网页解析器(Web Parser)模板的工具。主要进行模板的加载、生成以及校验等
 #

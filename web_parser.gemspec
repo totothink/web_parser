@@ -3,7 +3,7 @@ $:.push File.expand_path('../lib', __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = 'web-parser'
-  s.version     = '0.1.2'
+  s.version     = '0.2.0'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Aaron']
   s.email       = ['Aaron@nonobo.com']
@@ -13,9 +13,9 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = ''
 
-  s.add_dependency('nokogiri', '~> 1.4.6')
-  s.add_dependency('rspec','~> 1.3.2')
-  s.add_dependency('bundler','~> 1.0.5')
+  s.add_dependency('nokogiri', '~> 1')
+  s.add_dependency('rspec','~> 2')
+  s.add_dependency('bundler','>=1.0.5')
 
   s.files         = [
     'init.rb',

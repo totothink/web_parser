@@ -1,26 +1,23 @@
-== Web Parser 
-  Web Parser是一款页面解析工具，它通过用户给定的xhtml文档以及解析文档所使用的模板返回用户希望从xhtml文档中获取模板中指定的相关信息。
-  通过Web Parser能较大幅度的降低人工劳动，是提取页面信息的有效工具。
+= Web Parser 
+  Web Parser是一款页面信息提取工具，它通过用户给定的xhtml文档以及解析文档所使用的模板返回用户希望从xhtml文档中获取模板中指定的相关信息。Web parser的目标是让信息提取更加简单，降低人工处理重复信息的劳动强度。
 
-==== 使用
+== 使用
 
-==== 从指定的URL提取信息
+== 从指定的URL提取信息
   result = WebParser.extract_from_url(url,'nonobo.template')
 
-==== 从xhtml结构文档提取信息
+== 从xhtml结构文档提取信息
   result = WebParser.extract(xhtml_doc,'nonobo.template')
 
-==== 从xhtml文件提取信息
+== 从xhtml文件提取信息
   result = WebParser.extract_from_file(file,'nonobo.template')
 
-==== 加载模板文件
+== 加载模板文件
   template = Template.load_template('nonobo.template')
 
-==== 生成模板文件
+== 生成模板文件
   Template.dump_template(template,'nonobo.template')
   
-==== 模板说明
+== 模板说明
   详细参见TEMPLATE_SPEC文件  
-  
-
   

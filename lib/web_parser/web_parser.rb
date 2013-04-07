@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 # web_parser.rb - 网页文档解析器
 #   web_parser是专门用于解析网页的工具，它通过指定解析模板提取模板中指定需要提取的相关信息。
 #
@@ -24,7 +25,16 @@
 require 'nokogiri'
 require 'iconv'
 module WebParser
-  
+  DEFAULT_OPTIONS = {
+    'max_workers'=>5,
+    'queue'=>{
+      'server'=>'127.0.0.1:22122',
+      'in_queue' => 'in_queue',
+			'out_queue' => 'out_queue',
+			'wait_time' => 1
+      }
+  }
+
   class << self
     def extract(xhtml,template)
       template = Template.load_template(template) unless template.instance_of?(Hash)  # 如果给定的template不是哈希，则认为是模板文件进行加载
@@ -56,6 +66,7 @@ module WebParser
     end
 
     private
+
       def get_doc_from_url(url,options={})
         doc = request_doc_from_url(url,options)
         doc && convert_to_utf8(doc)
@@ -75,7 +86,7 @@ module WebParser
       # 将网页从其他字符集转换成为utf8格式
       # 如果网页中没有指定字符集，则默认为utf-8格式进行处理
       def convert_to_utf8(doc)
-        doc.match(/charset=([a-zA-Z\-\d]*)/)
+        doc.match(/charset=[\"]?([a-zA-Z\-\d]*)[\"]?/)     
         doc_charset = $1
         if doc_charset && doc_charset.downcase != 'utf-8'        
           doc = Iconv.iconv('UTF-8//IGNORE',"#{doc_charset}//IGNORE",doc).to_s
@@ -137,7 +148,7 @@ module WebParser
       end
     
       def get_vaule_by_attr(object,attribute)
-        attribute == 'content' ? object.content : object.attributes[attribute]
+        attribute == 'content' ? object.content : object[attribute]
         rescue Exception => message
           raise "object:#{object};attribute:#{attribute}.#{message}"
       end

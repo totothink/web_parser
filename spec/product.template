@@ -1,110 +1,112 @@
-# product.template - 商品信息提取模板
-product:
-  type: single
-  xpath: div.dp_wrap
-  attributes:
-    product_id:
-      xpath: a#bookshelf
-      attr: href
-    category_id:
-      xpath: div.dp_break a[last()]
-      attr: href
-      transform_rules: "{|value| cate = Regexp.new('\/([\d.]+)\.'); matches = cate.match(value); matches[1] if matches}"
-    price:
-      xpath: p.price_d span
-      attr: content
-    grade:
-      xpath: p.fraction span
-      transform_rules: "{|object| object.search('img').inject(0){|f,i| {'images/star_red.gif' => 1,'images/star_red2.gif' => 0.5}[i.attributes['src'].value].to_i+f}}"
-
-book:
-  type: single
-  xpath: div.dp_main
-  attributes:
-    title:
-      xpath: div.h1_title h1
-      attr: content
-    cover:
-      xpath: div.show div.pic a img
-      attr: src
-      transform_rules: "{|value| value.to_s.send(:gsub,'_b.','_e.'); }"
-    author:
-      xpath: div.info div.book_detailed p[1]
-      transform_rules: "{|object| object.search('a').map{|a| a.content}.join(',')}"   
-    translator: 
-      xpath: div.info div.book_detailed p[1]
-    publisher:
-      xpath: div.info div.book_detailed p[2]
-      transform_rules: "{|object| object.content.split('：').last}"   
-    publish_date: 
-      xpath: div.info div.book_detailed p[3]
-      transform_rules: "{|object| object.content.split('：').last}"   
-    editions: 
-      xpath: div.info div.book_detailed ul.clearfix li[1] span[1]
-      transform_rules: "{|object| object.content.split('：').last}"   
-    pages: 
-      xpath: div.info div.book_detailed ul.clearfix li[1] span[2]
-      transform_rules: "{|object| object.content.split('：').last}"   
-    word_count: 
-      xpath: div.info div.book_detailed ul.clearfix li[1] span[3]
-      transform_rules: "{|object| object.content.split('：').last}"   
-    print_time:
-      xpath: div.info div.book_detailed ul.clearfix li[2] span[1]
-      attr: content
-    dimensions:
-      xpath: div.info div.book_detailed ul.clearfix li[2] span[2]
-      transform_rules: "{|object| object.content.split('：').last}"   
-    paper: 
-      xpath: div.info div.book_detailed ul.clearfix li[2] span[3]
-      transform_rules: "{|object| object.content.split('：').last}"   
-    print_times: 
-      xpath: div.info div.book_detailed ul.clearfix li[3] span[1]
-      transform_rules: "{|object| object.content.split('：').last}"
-    isbn: 
-      xpath: div.info div.book_detailed ul.clearfix li[3] span[2]
-      transform_rules: "{|object| object.content.split('：').last}"
-    packaging: 
-      xpath: div.info div.book_detailed ul.clearfix li[3] span[3]
-      transform_rules: "{|object| object.content.split('：').last}"
-    price:
-      xpath: p.price_m
-      transform_rules: "{|object| object.children.first.content.split('：').last.gsub(\"\t\",'')}"
-
-customer_purchased:
-  type: list
-  xpath: div[name=__alsobuy_pub] ul li.detailed
-  attributes:
-    title: 
-      xpath: a
-      attr: title
-    purchased_product_id:
-      xpath: a
-      attr: href
-      transform_rules: "{|value| cate = Regexp.new('product_id=(\d*)'); matches = cate.match(value);matches[1] if matches}"
-
-vistor_readed:
-  type: list
-  xpath: div[name=__alsoview_pub] ul li.detailed
-  attributes:
-    title: 
-      xpath: a
-      attr: title
-    readed_product_id:
-      xpath: a
-      attr: href
-      transform_rules: "{|value| cate = Regexp.new('product_id=(\d*)'); matches = cate.match(value);matches[1] if matches}"
-
+---
 vistor_purchased:
-  type: list
   xpath: div[name=__BAV_bk] ul li
   attributes:
-    title: 
+    purchased_product_id:
+      transform_rules: ! '{|value| cate = Regexp.new(''product_id=(\d*)'');  matches
+        = cate.match(value);matches[1] if matches}'
+      xpath: a
+      attr: href
+    title:
       xpath: p a
       attr: title
     percent:
       xpath: p span
       attr: content
-    purchased_product_id:
+  type: list
+vistor_readed:
+  xpath: div[name=__alsoview_pub] ul li.detailed
+  attributes:
+    title:
+      xpath: a
+      attr: title
+    readed_product_id:
+      transform_rules: ! '{|value| cate = Regexp.new(''product_id=(\d*)''); matches
+        = cate.match(value);matches[1] if matches}'
       xpath: a
       attr: href
-      transform_rules: "{|value| cate = Regexp.new('product_id=(\d*)');  matches = cate.match(value);matches[1] if matches}"
+  type: list
+customer_purchased:
+  xpath: div[name=__alsobuy_pub] ul li.detailed
+  attributes:
+    purchased_product_id:
+      transform_rules: ! '{|value| cate = Regexp.new(''product_id=(\d*)''); matches
+        = cate.match(value);matches[1] if matches}'
+      xpath: a
+      attr: href
+    title:
+      xpath: a
+      attr: title
+  type: list
+book:
+  xpath: div.dp_main
+  attributes:
+    isbn:
+      transform_rules: ! '{|object| object.content.split(''：'').last}'
+      xpath: div.info div.book_detailed ul.clearfix li[3] span[2]
+    title:
+      xpath: div.h1_title h1
+      attr: content
+    price:
+      transform_rules: ! "{|object| object.children.first.content.split('：').last.gsub(\"\t\",'')}"
+      xpath: p.price_m
+    dimensions:
+      transform_rules: ! '{|object| object.content.split(''：'').last}'
+      xpath: div.info div.book_detailed ul.clearfix li[2] span[2]
+    editions:
+      transform_rules: ! '{|object| object.content.split(''：'').last}'
+      xpath: div.info div.book_detailed ul.clearfix li[1] span[1]
+    publish_date:
+      transform_rules: ! '{|object| object.content.split(''：'').last}'
+      xpath: div.info div.book_detailed p[3]
+    translator:
+      xpath: div.info div.book_detailed p[1]
+    author:
+      transform_rules: ! '{|object| object.search(''a'').map{|a| a.content}.join('','')}'
+      xpath: div.info div.book_detailed p[1]
+    packaging:
+      transform_rules: ! '{|object| object.content.split(''：'').last}'
+      xpath: div.info div.book_detailed ul.clearfix li[3] span[3]
+    print_time:
+      xpath: div.info div.book_detailed ul.clearfix li[2] span[1]
+      attr: content
+    word_count:
+      transform_rules: ! '{|object| object.content.split(''：'').last}'
+      xpath: div.info div.book_detailed ul.clearfix li[1] span[3]
+    publisher:
+      transform_rules: ! '{|object| object.content.split(''：'').last}'
+      xpath: div.info div.book_detailed p[2]
+    print_times:
+      transform_rules: ! '{|object| object.content.split(''：'').last}'
+      xpath: div.info div.book_detailed ul.clearfix li[3] span[1]
+    pages:
+      transform_rules: ! '{|object| object.content.split(''：'').last}'
+      xpath: div.info div.book_detailed ul.clearfix li[1] span[2]
+    paper:
+      transform_rules: ! '{|object| object.content.split(''：'').last}'
+      xpath: div.info div.book_detailed ul.clearfix li[2] span[3]
+    cover:
+      transform_rules: ! '{|value| value.to_s.send(:gsub,''_b.'',''_e.''); }'
+      xpath: div.show div.pic a img
+      attr: src
+  type: single
+product:
+  type: single
+  xpath: div.dp_wrap
+  attributes:
+    price:
+      xpath: p.price_d span
+      attr: content
+    product_id:
+      xpath: a#bookshelf
+      attr: href
+    category_id:
+      transform_rules: ! '{|value| cate = Regexp.new(''\/([\d.]+)\.''); matches =
+        cate.match(value); matches[1] if matches}'
+      xpath: div.dp_break a[last()]
+      attr: href
+    grade:
+      transform_rules: ! '{|object| object.search(''img'').inject(0){|f,i| {''images/star_red.gif''
+        => 1,''images/star_red2.gif'' => 0.5}[i.attributes[''src''].value].to_i+f}}'
+      xpath: p.fraction span
+
