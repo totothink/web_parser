@@ -60,8 +60,8 @@ module WebParser
       extract(doc,template)
     end
 
-    def extract_from_file(web_file,template)
-      doc = get_doc_from_file(web_file)
+    def extract_from_file(web_file,template,options={})
+      doc = get_doc_from_file(web_file,options)
       extract(doc,template)
     end
 
@@ -69,7 +69,7 @@ module WebParser
 
       def get_doc_from_url(url,options={})
         doc = request_doc_from_url(url,options)
-        doc && convert_to_utf8(doc)
+        doc && convert_to_utf8(doc,options)
       end
 
       def request_doc_from_url(url,options={})
@@ -77,17 +77,18 @@ module WebParser
         res && res.body 
       end
 
-      def get_doc_from_file(web_file)
+      def get_doc_from_file(web_file,options={})
         doc = nil
         File.open(web_file){|f| doc = f.read}
-        doc && convert_to_utf8(doc)
+        doc && convert_to_utf8(doc,options)
       end
 
       # 将网页从其他字符集转换成为utf8格式
       # 如果网页中没有指定字符集，则默认为utf-8格式进行处理
-      def convert_to_utf8(doc)
+      def convert_to_utf8(doc,options={})
         doc.match(/charset=[\"]?([a-zA-Z\-\d]*)[\"]?/)     
         doc_charset = $1
+        doc_charset ||= options[:charset] || options['charset']
         if doc_charset && doc_charset.downcase != 'utf-8'        
           doc = Iconv.iconv('UTF-8//IGNORE',"#{doc_charset}//IGNORE",doc)[0].to_s
           doc.sub!("charset=#{doc_charset}",'charset=utf-8')
