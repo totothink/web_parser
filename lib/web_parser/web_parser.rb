@@ -68,8 +68,9 @@ module WebParser
     private
 
       def get_doc_from_url(url,options={})
+        charset = options.delete(:charset) || options.delete('charset')
         doc = request_doc_from_url(url,options)
-        doc && convert_to_utf8(doc,options)
+        doc && convert_to_utf8(doc,:charset=>charset)
       end
 
       def request_doc_from_url(url,options={})
@@ -79,8 +80,9 @@ module WebParser
 
       def get_doc_from_file(web_file,options={})
         doc = nil
+        charset = options.delete(:charset) || options.delete('charset')
         File.open(web_file){|f| doc = f.read}
-        doc && convert_to_utf8(doc,options)
+        doc && convert_to_utf8(doc,:charset=>charset)
       end
 
       # 将网页从其他字符集转换成为utf8格式
