@@ -89,7 +89,7 @@ module WebParser
         doc.match(/charset=[\"]?([a-zA-Z\-\d]*)[\"]?/)     
         doc_charset = $1
         if doc_charset && doc_charset.downcase != 'utf-8'        
-          doc = Iconv.iconv('UTF-8//IGNORE',"#{doc_charset}//IGNORE",doc).to_s
+          doc = Iconv.iconv('UTF-8//IGNORE',"#{doc_charset}//IGNORE",doc)[0].to_s
           doc.sub!("charset=#{doc_charset}",'charset=utf-8')
         end
         doc
