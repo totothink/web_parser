@@ -74,8 +74,8 @@ module WebParser
       end
 
       def request_doc_from_url(url,options={})
-        res = WebAgent.get(url,options)
-        res && res.body 
+        res = RestClient.get(url)
+        res && res.body
       end
 
       def get_doc_from_file(web_file,options={})
