@@ -1,20 +1,32 @@
-GEM
-  remote: http://rubygems.org/
+PATH
+  remote: .
   specs:
-    diff-lcs (1.1.3)
-    nokogiri (1.5.5)
-    rspec (2.12.0)
-      rspec-core (~> 2.12.0)
-      rspec-expectations (~> 2.12.0)
-      rspec-mocks (~> 2.12.0)
-    rspec-core (2.12.0)
-    rspec-expectations (2.12.0)
-      diff-lcs (~> 1.1.3)
-    rspec-mocks (2.12.0)
+    web_parser (0.2.1)
+      bundler (>= 1.0.5)
+      nokogiri (~> 1)
+      rspec (~> 2)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    diff-lcs (1.2.5)
+    mini_portile (0.6.2)
+    nokogiri (1.6.5)
+      mini_portile (~> 0.6.0)
+    rake (10.4.2)
+    rspec (2.99.0)
+      rspec-core (~> 2.99.0)
+      rspec-expectations (~> 2.99.0)
+      rspec-mocks (~> 2.99.0)
+    rspec-core (2.99.2)
+    rspec-expectations (2.99.2)
+      diff-lcs (>= 1.1.3, < 2.0)
+    rspec-mocks (2.99.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  nokogiri
-  rspec
+  bundler (~> 1.7)
+  rake (~> 10.0)
+  web_parser!

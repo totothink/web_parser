@@ -1,39 +1,25 @@
-# -*- encoding: utf-8 -*-
-$:.push File.expand_path('../lib', __FILE__)
+# coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'web_parser/version'
 
-Gem::Specification.new do |s|
-  s.name        = 'web-parser'
-  s.version     = '0.2.1'
-  s.platform    = Gem::Platform::RUBY
-  s.authors     = ['Aaron']
-  s.email       = ['Aaron@nonobo.com']
-  s.homepage    = ''
-  s.summary     = %q{a tool for extract web information }
-  s.description = %q{a tool for extract web information.}
+Gem::Specification.new do |spec|
+  spec.name          = "web_parser"
+  spec.version       = WebParser::VERSION
+  spec.authors       = ["aaron"]
+  spec.email         = ["aaron@nonobo.com"]
+  spec.summary     = %q{a tool for extract web information }
+  spec.description = %q{a tool for extract web information.}
+  spec.homepage      = ""
+  spec.license       = "MIT"
 
-  s.rubyforge_project = ''
+  spec.files         = `git ls-files -z`.split("\x0")
+  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  spec.require_paths = ["lib"]
 
-  s.add_dependency('nokogiri', '~> 1')
-  s.add_dependency('rspec','~> 2')
-  s.add_dependency('bundler','>=1.0.5')
-
-  s.files         = [
-    'init.rb',
-    'README',
-    'TEMPLATE_SPEC',
-    'TODO',
-    'web_parser.gemspec',
-    'lib/web_parser.rb',
-    'lib/web_parser/template.rb',
-    'lib/web_parser/web_agent.rb',
-    'lib/web_parser/web_parser.rb',
-    'spec/amazon.html',
-    'spec/amazon.template',
-    'spec/dangdang.html',
-    'spec/product.template',
-    'spec/spec_helper.rb',
-    'spec/template_spec.rb',
-    'spec/web_parser_spec.rb'
-  ]
-  s.require_paths = ['lib']
+  spec.add_development_dependency "bundler", "~> 1.7"
+  spec.add_development_dependency "rspec", "~> 2"
+  spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_dependency('nokogiri', '~> 1')
 end

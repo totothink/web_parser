@@ -1,5 +1,4 @@
-source "http://rubygems.org"
+source 'https://rubygems.org'
 
-gem "nokogiri"
-gem "rspec"
-
+# Specify your gem's dependencies in web_parser.gemspec
+gemspec
